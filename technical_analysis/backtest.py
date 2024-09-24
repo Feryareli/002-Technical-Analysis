@@ -5,7 +5,6 @@ INITIAL_CAPITAL = 1_000_000
 COMMISSION = 0.00125  # Comisión
 TREASURY_BOND_RATE = 0.03  # Tasa de referencia de los bonos del Tesoro (3%) (Sharpe Ratio)
 
-
 # Max Drawdown
 def calculate_max_drawdown(portfolio_values):
     peak = portfolio_values[0]
@@ -144,3 +143,9 @@ def profit_with_combination(trial, data, indicators_combination):
     sharpe_ratio = calculate_sharpe_ratio(portfolio_value)
 
     return capital, max_drawdown, win_loss_ratio, sharpe_ratio, buy_signals, sell_signals
+
+# Función para correr la mejor estrategia en el dataset de prueba
+def run_optimal_strategy_on_test_data(best_params, test_data, best_combination):
+    test_signals = create_signals(test_data,
+                                  indicators_to_use=best_combination,
+                                  **best_params)
