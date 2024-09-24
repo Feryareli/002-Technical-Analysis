@@ -108,7 +108,27 @@ def profit_with_combination(trial, data, indicators_combination):
                     "stop_loss": row.Close * (1 + stop_loss),
                     "take_profit": row.Close * (1 - take_profit)
                 })
-# Continuar
+
+        positions_value = sum(
+[pos["n_shares"] * row.Close if pos["type"] == "LONG" else (pos["sold_at"] - row.Close) * pos["n_shares"] for
+pos inactive_positions])
+        portfolio_value.append(capital + positions_value)
+
+    for pos in active_positions.copy():
+        if pos["type"] == "LONG":
+            capital += row.Close * pos["n_shares"] * (1 - COMMISSION)
+
+        elif pos["type"] == "SHORT":
+            capital += (pos["sold_at"] - row.Close) * pos["n_shares"] * (1 - COMMISSION)
+        active_positions.remove(pos)
+
+    portfolio_value.append(capital)
+
+    max_drawdown = calculate_max_drawdown(portfolio_value)
+    win_loss_ratio = calculate_win_loss_ratio(trades)
+    sharpe_ratio = calculate_sharpe_ratio(portfolio_value)
+
+    return capital, max_drawdown, win_loss_ratio, sharpe_ratio, buy_signals, sell_signals
 
 # Función de backtesting para optimización
 def profit_with_combination(trial, data, indicators_combination):
