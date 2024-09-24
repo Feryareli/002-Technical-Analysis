@@ -5,6 +5,36 @@ INITIAL_CAPITAL = 1_000_000
 COMMISSION = 0.00125  # Comisión
 TREASURY_BOND_RATE = 0.03  # Tasa de referencia de los bonos del Tesoro (3%) (Sharpe Ratio)
 
+
+# Max Drawdown
+def calculate_max_drawdown(portfolio_values):
+    peak = portfolio_values[0]
+    max_drawdown = 0
+    for value in portfolio_values:
+        if value > peak:
+            peak = value
+        drawdown = (peak - value) / peak
+        max_drawdown = max(max_drawdown, drawdown)
+    return max_drawdown
+
+
+# Win-Loss Ratio
+def calculate_win_loss_ratio(trades):
+    wins = sum(1 for trade in trades if trade['profit'] > 0)
+    losses = sum(1 for trade in trades if trade['profit'] <= 0)
+    return wins / losses if losses > 0 else wins
+
+
+# Sharpe Ratio (ajustado por bonos del Tesoro)
+def calculate_sharpe_ratio(portfolio_values):
+    returns = np.diff(portfolio_values) / portfolio_values[:-1]
+    if np.std(returns) == 0:
+        return 0
+    excess_returns = returns - (TREASURY_BOND_RATE / (252 * (24 * 12)))
+    sharpe_ratio = np.mean(excess_returns) / np.std(excess_returns)
+    sharpe_ratio_annualized = sharpe_ratio * np.sqrt(252 * (24 * 12))
+    return sharpe_ratio_annualized
+
 # Función de backtesting para optimización
 def profit_with_combination(trial, data, indicators_combination):
     capital = INITIAL_CAPITAL
@@ -12,7 +42,7 @@ def profit_with_combination(trial, data, indicators_combination):
     buy_signals = 0
     sell_signals = 0
 
-    # Definir los parámetros optimizables
+    # Parámetros optimizables
     n_shares = trial.suggest_int("n_shares", 10, 100)
     stop_loss = trial.suggest_float("stop_loss", 0.02, 0.1)
     take_profit = trial.suggest_float("take_profit", 0.05, 0.2)
@@ -27,7 +57,7 @@ def profit_with_combination(trial, data, indicators_combination):
     atr_window = trial.suggest_int("atr_window", 5, 20)
     sma_window = trial.suggest_int("sma_window", 20, 100)
 
-    # Crear las señales con la combinación actual de indicadores
+    # Creación señales con la combinación actual de indicadores
     technical_data = create_signals(
         data,
         indicators_to_use=list(indicators_combination),
