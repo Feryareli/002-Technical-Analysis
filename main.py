@@ -17,6 +17,8 @@ for r in range(1, len(all_indicators) + 1):
 
 print(f"Total de combinaciones a probar: {len(all_combinations)}")
 
+
+
 # Monitorear el progreso del trial
 def callback(study, trial):
     print(f"  - Capital Final: {trial.values[0]}")
@@ -30,5 +32,5 @@ def callback(study, trial):
         print(f"SELL_SIGNALS: {trial.user_attrs['sell_signals']}\n")
 
 
-# Optimizar la estrategia para cada combinación de indicadores
+# Optimizar la estrategia para cada combinación de indicadores - muestra los mejores resultados
 best_results = {}
