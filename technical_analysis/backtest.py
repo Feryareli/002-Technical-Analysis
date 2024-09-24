@@ -61,6 +61,28 @@ def profit_with_combination(trial, data, indicators_combination):
     atr_window = trial.suggest_int("atr_window", 5, 20)
     sma_window = trial.suggest_int("sma_window", 20, 100)
 
+    # Crear las señales con la combinación actual de indicadores
+    technical_data = create_signals(
+        data,
+        indicators_to_use=list(indicators_combination),
+        rsi_window=rsi_window,
+        rsi_lower_threshold=rsi_lower_threshold,
+        rsi_upper_threshold=rsi_upper_threshold,
+        bollinger_window=bollinger_window,
+        bollinger_std=bollinger_std,
+        macd_slow_window=macd_slow_window,
+        macd_fast_window=macd_fast_window,
+        macd_sign_window=macd_sign_window,
+        atr_window=atr_window,
+        sma_window=sma_window
+    )
+
+    if technical_data.empty:
+        return capital, 0, 0, 0, buy_signals, sell_signals
+
+    active_positions = []
+    portfolio_value = [capital]
+
     # Backtesting con esta combinación de indicadores
     for i, row in technical_data.iterrows():
         active_pos_copy = active_positions.copy()
