@@ -17,8 +17,6 @@ for r in range(1, len(all_indicators) + 1):
 
 print(f"Total de combinaciones a probar: {len(all_combinations)}")
 
-
-
 # Monitorear el progreso del trial
 def callback(study, trial):
     print(f"  - Capital Final: {trial.values[0]}")
@@ -31,6 +29,34 @@ def callback(study, trial):
         print(f"BUY_SIGNALS: {trial.user_attrs['buy_signals']}")
         print(f"SELL_SIGNALS: {trial.user_attrs['sell_signals']}\n")
 
-
 # Optimizar la estrategia para cada combinación de indicadores - muestra los mejores resultados
 best_results = {}
+
+for indicators_combination in all_combinations:
+    print(f"\nOptimizando para la combinación de indicadores: {indicators_combination}")
+
+    study = optuna.create_study(directions=['maximize', 'minimize', 'maximize', 'maximize'])
+
+    def objective(trial):
+        result = profit_with_combination(trial, train_data, indicators_combination)
+        return result
+
+    study.optimize(objective, n_trials=50, callbacks=[callback])
+
+    # Obtener el mejor trial
+    best_trial = study.best_trials[0]
+
+    # Manejar casos en los que no haya señales de compra/venta
+    buy_signals = best_trial.user_attrs.get('buy_signals', 0)
+    sell_signals = best_trial.user_attrs.get('sell_signals', 0)
+
+    # Guardar los resultados de esta combinación
+    best_results[indicators_combination] = {
+        "params": best_trial.params,
+        "capital_final": best_trial.values[0],
+        "max_drawdown": best_trial.values[1],
+        "win_loss_ratio": best_trial.values[2],
+        "sharpe_ratio": best_trial.values[3],
+        "buy_signals": buy_signals,
+        "sell_signals": sell_signals
+    }
