@@ -149,3 +149,14 @@ def run_optimal_strategy_on_test_data(best_params, test_data, best_combination):
     test_signals = create_signals(test_data,
                                   indicators_to_use=best_combination,
                                   **best_params)
+
+    # Ejecuta el backtesting en el dataset de prueba
+    final_capital, max_drawdown, win_loss_ratio, sharpe_ratio = profit_with_combination(best_params, test_data,
+                                                                                        best_combination)
+
+    # Muestra los resultados en el conjunto de prueba
+    print("\nResultados del mejor trial en el conjunto de prueba:")
+    print(f"Capital final: {final_capital}")
+    print(f"Max Drawdown: {max_drawdown:.2%}")
+    print(f"Win-Loss Ratio: {win_loss_ratio:.2f}")
+    print(f"Sharpe Ratio: {sharpe_ratio:.2f}")
