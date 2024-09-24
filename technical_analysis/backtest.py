@@ -1,4 +1,5 @@
 import numpy as np
+from utils.utils import create_signals
 
 # Parámetros iniciales fijos
 INITIAL_CAPITAL = 1_000_000
