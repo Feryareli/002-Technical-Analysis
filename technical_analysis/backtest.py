@@ -36,16 +36,9 @@ def calculate_sharpe_ratio(portfolio_values):
     return sharpe_ratio_annualized
 
 
-Función
-de
-backtesting
-para
-optimización
-usando
-combinaciones
-de
-indicadores
 
+
+# Función de backtesting para optimización usando combinaciones de indicadores
 
 def profit_with_combination(trial, data, indicators_combination):
     capital = INITIAL_CAPITAL
@@ -68,7 +61,55 @@ def profit_with_combination(trial, data, indicators_combination):
     atr_window = trial.suggest_int("atr_window", 5, 20)
     sma_window = trial.suggest_int("sma_window", 20, 100)
 
-    # Continuar
+    # Backtesting con esta combinación de indicadores
+    for i, row in technical_data.iterrows():
+        active_pos_copy = active_positions.copy()
+        for pos in active_pos_copy:
+            if pos["type"] == "LONG":
+                if row.Close < pos["stop_loss"]:
+                    capital += row.Close * pos["n_shares"] * (1 - COMMISSION)
+                    trades.append({"type": "LONG", "profit": (row.Close - pos["bought_at"]) * pos["n_shares"]})
+                    active_positions.remove(pos)
+                elif row.Close > pos["take_profit"]:
+                    capital += row.Close * pos["n_shares"] * (1 - COMMISSION)
+                    trades.append({"type": "LONG", "profit": (row.Close - pos["bought_at"]) * pos["n_shares"]})
+                    active_positions.remove(pos)
+            elif pos["type"] == "SHORT":
+                if row.Close > pos["stop_loss"]:
+                    capital += (pos["sold_at"] - row.Close) * pos["n_shares"] * (1 - COMMISSION)
+                    trades.append({"type": "SHORT", "profit": (pos["sold_at"] - row.Close) * pos["n_shares"]})
+                    active_positions.remove(pos)
+                elif row.Close < pos["take_profit"]:
+                    capital += (pos["sold_at"] - row.Close) * pos["n_shares"] * (1 - COMMISSION)
+                    trades.append({"type": "SHORT", "profit": (pos["sold_at"] - row.Close) * pos["n_shares"]})
+                    active_positions.remove(pos)
+
+        if row.BUY_SIGNAL and len(active_positions) < 1000:
+            cost = row.Close * (1 + COMMISSION) * n_shares
+            if capital > cost:
+                capital -= cost
+                buy_signals += 1
+                active_positions.append({
+                    "type": "LONG",
+                    "bought_at": row.Close,
+                    "n_shares": n_shares,
+                    "stop_loss": row.Close * (1 - stop_loss),
+                    "take_profit": row.Close * (1 + take_profit)
+                })
+        if row.SELL_SIGNAL and len(active_positions) < 1000:
+            cost = row.Close * COMMISSION * n_shares
+            if capital > cost * 1.5:
+                capital -= cost
+                sell_signals += 1
+                active_positions.append({
+                    "type": "SHORT",
+                    "sold_at": row.Close,
+                    "n_shares": n_shares,
+                    "stop_loss": row.Close * (1 + stop_loss),
+                    "take_profit": row.Close * (1 - take_profit)
+                })
+# Continuar
+
 # Función de backtesting para optimización
 def profit_with_combination(trial, data, indicators_combination):
     capital = INITIAL_CAPITAL
