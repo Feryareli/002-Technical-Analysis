@@ -35,6 +35,40 @@ def calculate_sharpe_ratio(portfolio_values):
     sharpe_ratio_annualized = sharpe_ratio * np.sqrt(252 * (24 * 12))
     return sharpe_ratio_annualized
 
+
+Función
+de
+backtesting
+para
+optimización
+usando
+combinaciones
+de
+indicadores
+
+
+def profit_with_combination(trial, data, indicators_combination):
+    capital = INITIAL_CAPITAL
+    trades = []
+    buy_signals = 0
+    sell_signals = 0
+
+    # Definir los parámetros optimizables
+    n_shares = trial.suggest_int("n_shares", 10, 100)
+    stop_loss = trial.suggest_float("stop_loss", 0.02, 0.1)
+    take_profit = trial.suggest_float("take_profit", 0.05, 0.2)
+    rsi_window = trial.suggest_int("rsi_window", 5, 30)
+    rsi_lower_threshold = trial.suggest_int("rsi_lower_threshold", 10, 45)
+    rsi_upper_threshold = trial.suggest_int("rsi_upper_threshold", 55, 90)
+    bollinger_window = trial.suggest_int("bollinger_window", 10, 50)
+    bollinger_std = trial.suggest_float("bollinger_std", 1.0, 3.0)
+    macd_slow_window = trial.suggest_int("macd_slow_window", 20, 50)
+    macd_fast_window = trial.suggest_int("macd_fast_window", 5, 20)
+    macd_sign_window = trial.suggest_int("macd_sign_window", 5, 20)
+    atr_window = trial.suggest_int("atr_window", 5, 20)
+    sma_window = trial.suggest_int("sma_window", 20, 100)
+
+    # Continuar
 # Función de backtesting para optimización
 def profit_with_combination(trial, data, indicators_combination):
     capital = INITIAL_CAPITAL
