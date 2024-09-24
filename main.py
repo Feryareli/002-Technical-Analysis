@@ -60,3 +60,17 @@ for indicators_combination in all_combinations:
         "buy_signals": buy_signals,
         "sell_signals": sell_signals
     }
+
+# Mostrar los mejores resultados
+for combination, result in best_results.items():
+    print(f"Mejor resultado para la combinación {combination}:")
+    print(f"  - Capital Final: {result['capital_final']}")
+    print(f"  - Max Drawdown: {result['max_drawdown']:.2%}")
+    print(f"  - Win-Loss Ratio: {result['win_loss_ratio']:.2f}")
+    print(f"  - Sharpe Ratio: {result['sharpe_ratio']:.2f}")
+    print(f"  - BUY_SIGNALS: {result['buy_signals']}")
+    print(f"  - SELL_SIGNALS: {result['sell_signals']}\n")
+
+# Seleccionar la mejor combinación y correr el backtest en los datos de prueba
+best_combination = max(best_results, key=lambda x: best_results[x]['sharpe_ratio'])
+print(f"La mejor combinación es: {best_combination}")
