@@ -1,6 +1,7 @@
 import pandas as pd
 from utils.utils import create_signals_2
 from technical_analysis.backtest import profit_with_combination_2
+import matplotlib.pyplot as plt
 
 # Cargar los Datos de Prueba
 test_data = pd.read_csv('data/aapl_5m_test.csv').dropna()
@@ -43,3 +44,22 @@ print(f"  - SELL_SIGNALS: {sell_signals}")
 
 # Valor del portafolio
 print(f"  - Portfolio Value: {portfolio_value[-1]}")
+
+# Calcular Benchmark (buy and hold)
+initial_capital = 1_000_000
+portfolio_value_benchmark = (test_data["Close"] / test_data["Close"].iloc[0]) * initial_capital
+
+# Verificar que tanto portfolio_value como portfolio_value_benchmark no estén vacíos
+if len(portfolio_value) > 0 and len(portfolio_value_benchmark) > 0:
+    last_portfolio_value = portfolio_value[-1]  # Último valor de portfolio_value
+    last_benchmark_value = portfolio_value_benchmark.iloc[-1]  # Último valor de portfolio_value_benchmark
+    # Graficar los resultados
+    plt.title(f"Active={(last_portfolio_value / initial_capital - 1) * 100:.2f}% vs Passive={(last_benchmark_value / initial_capital - 1) * 100:.2f}%")
+    plt.plot(portfolio_value, label="Active")
+    plt.plot(portfolio_value_benchmark, label="Passive")
+    plt.legend()
+    plt.xlabel('Time')
+    plt.ylabel('Portfolio Value')
+    plt.show()
+else:
+    print("Error: portfolio_value o portfolio_value_benchmark está vacío.")
