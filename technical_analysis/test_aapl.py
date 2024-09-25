@@ -1,5 +1,5 @@
 import pandas as pd
-from utils.utils import create_signals_2  # La versión de create_signals para test
+from utils.utils import create_signals_2
 from technical_analysis.backtest import profit_with_combination_2
 
 # Cargar los Datos de Prueba
