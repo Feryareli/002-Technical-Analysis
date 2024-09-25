@@ -30,3 +30,7 @@ def create_signals(data: pd.DataFrame, **kwargs):
     print(f"SELL_SIGNALS: {data['SELL_SIGNAL'].sum()}")
 
     return data.dropna()
+
+
+# HOLA
+
