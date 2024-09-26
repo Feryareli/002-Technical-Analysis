@@ -1,12 +1,12 @@
 # 002-Technical-Analysis
 
-This project focuses on developing and backtesting trading strategies using technical indicators such as RSI, Bollinger Bands, MACD, ATR, and VWAP. The strategies are optimized using Optuna for parameter tuning to maximize profitability, minimize drawdown, and improve win-loss ratio and Sharpe ratio. The dataset includes minute-level stock prices for AAPL and Bitcoin.
+This project focuses on developing and backtesting trading strategies using technical indicators such as RSI, Bollinger Bands, MACD, ATR, and WilliamsR. The strategies are optimized using Optuna for parameter tuning to maximize profitability, minimize drawdown, and improve win-loss ratio and Sharpe ratio. The dataset includes minute-level stock prices for AAPL and Bitcoin.
 
 ---
 
 ## Data Overview
  
-This project uses four datasets, each containing 5 minute-level historical price data for both AAPL and Bitcoin. The datasets are divided into training and testing sets for the backtesting and optimization process.
+This project uses four datasets, each containing historical price data for both AAPL and Bitcoin. The datasets are divided into training and testing sets for the backtesting and optimization process.
  
 ### Datasets:
  
@@ -35,7 +35,7 @@ Each dataset contains key market data, including timestamp, price information (O
 
 ## Optimization Summary
 
-Below are the metrics for the best strategy obtained during optimization (Trial 17):
+Below are the metrics for the best strategy obtained during optimization (Trial 17) for aapl:
 
 - **Capital Final**: $2,340,532.83
 - **Max Drawdown**: 68.22%
@@ -62,3 +62,39 @@ Below are the metrics for the best strategy obtained during optimization (Trial 
 - **williams_r_upper_threshold**: -24.150180088712574
 
 ---
+
+## Instructions to Run the Project
+
+### 1. Clone the Repository
+
+git clone git@github.com:Feryareli/002-Technical-Analysis.git
+
+### 2. Navigate to the Project Directory
+
+cd 002-Technical-Analysis
+
+### 3. Set Up a Virtual Environment
+
+- **Windows**: python -m venv venv
+- **Mac/Linux**: python3 -m venv venv 
+
+Activate the virtual environment:
+
+- **Windows**: .\venv\Scripts\activate
+- **Mac/Linux**: source venv/bin/activate
+
+### 4. Install Required Dependencies
+
+pip install -r requirements.txt
+
+### 5. Run the Main Script
+
+python main.py
+
+### 6. Run the Jupyter Notebook for Visualization
+
+jupyter notebook report.ipynb
+
+### 7. Deactivate the Virtual Environment
+
+deactivate
