@@ -1,6 +1,34 @@
 # 002-Technical-Analysis
 
-This project focuses on developing and backtesting trading strategies using technical indicators such as RSI, Bollinger Bands, MACD, ATR, and WilliamsR. The strategies are optimized using Optuna for parameter tuning to maximize profitability, minimize drawdown, and improve win-loss ratio and Sharpe ratio. The dataset includes minute-level stock prices for AAPL and Bitcoin.
+## Introduction
+
+
+Technical analysis is a key tool in trading, as it allows investors to evaluate  
+market behavior through historical price and volume data. Using this approach,  
+traders utilize indicators and charts to identify trends, support and resistance  
+levels, and recurring patterns that may signal future price movements. 
+
+In addition to facilitating decision-making regarding market entry and exit points, technical  
+analysis helps manage risk more effectively, providing a clearer view of opportunities  
+and potential risks. It also enables traders to anticipate corrections or trend reversals, 
+helping to maximize profits and minimize losses in volatile markets.
+
+## Objective
+
+This project focuses on applying technical analysis to two well-known assets, Apple (AAPL) 
+and Bitcoin (BTC), with the aim of enhancing trading performance. The objective is to  
+optimize and test trading strategies by utilizing various technical indicators, including 
+RSI, Bollinger Bands, MACD, ATR, and VWAP. For each asset, buy and sell signals are  
+defined based on the indicators, and 31 possible combinations of these indicators are tested.  
+
+The project involves backtesting both long and short positions while tracking key metrics such  
+as portfolio value, Sharpe Ratio (using treasury bonds as a reference), Max Drawdown, and  
+Win-Loss Ratio. Different optimization methods like TPE, Grid Search, and Genetic Algorithms 
+are applied to fine-tune indicator parameters, stop-loss/take-profit settings, and trade  
+volumes. The optimal strategy is selected based on performance metrics and compared to a  
+passive strategy across both training and testing datasets, with results summarized in a  
+table for further analysis.
+
 
 ---
 
