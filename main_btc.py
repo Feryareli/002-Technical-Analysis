@@ -1,4 +1,4 @@
-# APPLE
+# MAIN BTC
 
 # Importar librerías
 import pandas as pd
@@ -8,7 +8,7 @@ from technical_analysis.backtest import profit_with_combination
 from utils.utils import create_signals
 
 # Cargar los Datos
-train_data = pd.read_csv('data/aapl_5m_train.csv').dropna()
+train_data = pd.read_csv('data/btc_project_train.csv').dropna()
 
 # Combinaciones de indicadores 2^4-1 = 15 combinaciones (sin SMA)
 all_indicators = ["RSI", "Bollinger Bands", "MACD", "ATR", "Williams %R"]
