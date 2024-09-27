@@ -53,10 +53,11 @@ Each dataset contains key market data, including timestamp, price information (O
 - **data/**: Contains the training and testing datasets for AAPL and Bitcoin.
 - **technical_analysis/**: Includes backtest and testing scripts for analyzing strategies. 
 - **backtest.py/**: Script to run backtesting and evaluate combinations of trading strategies.
-- **test_aapl.py/**:
-- **test_btc.py/**: 
+- **test_aapl.py/**: Tests the optimized trading strategy on AAPL's 5-minute dataset using predefined optimal parameters. It generates trading signals, runs backtesting, and compares the active strategy's performance with a passive one through visualizations.
+- **test_btc.py/**: Tests the optimized trading strategy on Bitcoin's dataset using predefined optimal parameters. It generates trading signals, runs backtesting, and compares the active strategy's performance with a passive one through visualizations.
 - **utils/**: Helper functions for creating trading signals.
 - **main.py**: The main script for running the optimization and reporting the best results.
+- **main_btc.py**: The main script for optimizing and backtesting combinations of trading strategies on Bitcoin's dataset. 
 - **README.md**: This file, describing the project and setup instructions.
 - **requirements.txt**: Python dependencies required to run the project.
 - **report.ipynb**: Jupyter Notebook with visualizations and summary of the best strategies.
