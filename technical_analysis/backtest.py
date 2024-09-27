@@ -17,13 +17,11 @@ def calculate_max_drawdown(portfolio_values):
         max_drawdown = max(max_drawdown, drawdown)
     return max_drawdown
 
-
 # Win-Loss Ratio
 def calculate_win_loss_ratio(trades):
     wins = sum(1 for trade in trades if trade['profit'] > 0)
     losses = sum(1 for trade in trades if trade['profit'] <= 0)
     return wins / losses if losses > 0 else wins
-
 
 # Sharpe Ratio (ajustado por bonos del Tesoro)
 def calculate_sharpe_ratio(portfolio_values):
@@ -55,7 +53,9 @@ def profit_with_combination(trial, data, indicators_combination):
     macd_fast_window = trial.suggest_int("macd_fast_window", 5, 20)
     macd_sign_window = trial.suggest_int("macd_sign_window", 5, 20)
     atr_window = trial.suggest_int("atr_window", 5, 20)
-    sma_window = trial.suggest_int("sma_window", 20, 100)
+    williams_r_window = trial.suggest_int("williams_r_window", 5, 30)
+    williams_r_lower_threshold = trial.suggest_float("williams_r_lower_threshold", -100, -50)
+    williams_r_upper_threshold = trial.suggest_float("williams_r_upper_threshold", -50, 0)
 
     # Creación señales con la combinación actual de indicadores
     technical_data = create_signals(
@@ -70,7 +70,9 @@ def profit_with_combination(trial, data, indicators_combination):
         macd_fast_window=macd_fast_window,
         macd_sign_window=macd_sign_window,
         atr_window=atr_window,
-        sma_window=sma_window
+        williams_r_window=williams_r_window,
+        williams_r_lower_threshold=williams_r_lower_threshold,
+        williams_r_upper_threshold=williams_r_upper_threshold
     )
 
     if technical_data.empty:
