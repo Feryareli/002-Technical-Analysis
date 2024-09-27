@@ -171,3 +171,77 @@ plt.xlabel('Time')
 plt.ylabel('Portfolio Value')
 plt.legend()
 plt.show()
+
+# Tabla:
+
+# Definimos los indicadores técnicos utilizando los valores previamente calculados
+technical_data_aapl_5m["RSI"] = rsi
+technical_data_aapl_5m["BOLL"] = bollinger.bollinger_hband() - bollinger.bollinger_lband()  # Diferencia entre la banda superior e inferior de Bollinger
+technical_data_aapl_5m["MACD"] = macd
+technical_data_aapl_5m["ATR"] = atr
+technical_data_aapl_5m["Williams_R"] = williams_r
+
+# Calculamos los retornos tanto para la estrategia activa como para la pasiva
+returns_active = np.diff(portfolio_value) / portfolio_value[:-1]  # Retornos de la estrategia activa
+returns_passive = np.diff(portfolio_value_benchmark) / portfolio_value_benchmark[:-1]  # Retornos de la estrategia pasiva
+
+# Función para calcular el Ratio de Sharpe
+def calculate_sharpe_ratio(returns, risk_free_rate=0.02):
+    excess_returns = returns - risk_free_rate / len(returns)
+    return np.mean(excess_returns) / np.std(excess_returns)
+
+# Función para calcular el Max Drawdown (máxima caída)
+def calculate_max_drawdown(portfolio_value):
+    drawdown = np.maximum.accumulate(portfolio_value) - portfolio_value
+    max_drawdown = np.max(drawdown / np.maximum.accumulate(portfolio_value))
+    return max_drawdown * -100  # Lo multiplicamos por -100 para mostrarlo como porcentaje negativo
+
+# Función para calcular el ratio de Ganancias/Pérdidas (Win-Loss Ratio)
+def calculate_win_loss_ratio(profits):
+    wins = profits[profits > 0]
+    losses = profits[profits < 0]
+    if len(losses) == 0:
+        return float('inf')
+    return len(wins) / len(losses)
+
+# Calculamos los métricos para la estrategia optimizada (activa)
+sharpe_ratio_active = calculate_sharpe_ratio(returns_active)
+max_drawdown_active = calculate_max_drawdown(portfolio_value)
+win_loss_ratio_active = calculate_win_loss_ratio(returns_active)
+
+# Calculamos los métricos para la estrategia pasiva (Buy & Hold)
+sharpe_ratio_passive = calculate_sharpe_ratio(returns_passive)
+max_drawdown_passive = calculate_max_drawdown(portfolio_value_benchmark)
+win_loss_ratio_passive = "N/A"
+
+# Creamos un DataFrame para organizar la tabla de resultados
+metrics_table = pd.DataFrame({
+    "Strategy": ["Optimized Strategy (Active)", "Passive Buy & Hold"],
+    "Sharpe Ratio": [sharpe_ratio_active, sharpe_ratio_passive],
+    "Max Drawdown (%)": [max_drawdown_active, max_drawdown_passive],
+    "Win-Loss Ratio": [win_loss_ratio_active, win_loss_ratio_passive],
+    "RSI": [technical_data_aapl_5m["RSI"].mean(), "N/A"],  # Promedio del RSI
+    "BOLL": [technical_data_aapl_5m["BOLL"].mean(), "N/A"],  # Ancho promedio de las bandas de Bollinger
+    "MACD": [technical_data_aapl_5m["MACD"].mean(), "N/A"],  # Valor promedio del MACD
+    "ATR": [technical_data_aapl_5m["ATR"].mean(), "N/A"],  # Valor promedio del ATR
+    "Williams %R": [technical_data_aapl_5m["Williams_R"].mean(), "N/A"]  # Valor promedio de Williams %R
+})
+
+# Damos formato a las columnas y mostramos la tabla
+metrics_table["Sharpe Ratio"] = metrics_table["Sharpe Ratio"].apply(lambda x: round(x, 2))
+metrics_table["Max Drawdown (%)"] = metrics_table["Max Drawdown (%)"].apply(lambda x: f"{x:.2f}%")
+metrics_table["Win-Loss Ratio"] = metrics_table["Win-Loss Ratio"].apply(lambda x: round(x, 2) if x != "N/A" else x)
+
+# Agregamos los valores finales de capital tanto para la estrategia activa como pasiva
+final_capital_active = portfolio_value[-1]
+final_capital_passive = portfolio_value_benchmark.values[-1]
+
+# Añadimos la columna de capital final a la tabla de métricas
+metrics_table["Final Capital"] = [final_capital_active, final_capital_passive]
+
+# Formateamos la columna de "Final Capital" en formato de dinero
+metrics_table["Final Capital"] = metrics_table["Final Capital"].apply(lambda x: "${:,.2f}".format(x))
+
+# Mostrar la tabla final
+from IPython.display import display
+display(metrics_table)
