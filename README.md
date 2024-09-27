@@ -18,7 +18,7 @@ helping to maximize profits and minimize losses in volatile markets.
 This project focuses on applying technical analysis to two well-known assets, Apple (AAPL) 
 and Bitcoin (BTC), with the aim of enhancing trading performance. The objective is to  
 optimize and test trading strategies by utilizing various technical indicators, including 
-RSI, Bollinger Bands, MACD, ATR, and VWAP. For each asset, buy and sell signals are  
+RSI, Bollinger Bands, MACD, ATR, and Williams %R. For each asset, buy and sell signals are  
 defined based on the indicators, and 31 possible combinations of these indicators are tested.  
 
 The project involves backtesting both long and short positions while tracking key metrics such  
