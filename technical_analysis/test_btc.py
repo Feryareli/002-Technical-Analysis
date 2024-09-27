@@ -195,7 +195,7 @@ returns_passive = np.diff(portfolio_value_benchmark) / portfolio_value_benchmark
 
 # Función para calcular el Ratio de Sharpe
 # Este ratio mide el rendimiento ajustado por el riesgo, comparando el retorno con un activo libre de riesgo
-def calculate_sharpe_ratio(returns, risk_free_rate=0.03):
+def calculate_sharpe_ratio(returns, risk_free_rate=0.02):
     excess_returns = returns - risk_free_rate / len(returns)  # Ajustamos por el número de periodos
     return np.mean(excess_returns) / np.std(excess_returns)  # Media de los retornos en exceso dividida por la desviación estándar
 
