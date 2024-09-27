@@ -51,7 +51,10 @@ Each dataset contains key market data, including timestamp, price information (O
 ## Project Structure
  
 - **data/**: Contains the training and testing datasets for AAPL and Bitcoin.
-- **technical_analysis/**: Includes backtest and testing scripts for analyzing strategies.
+- **technical_analysis/**: Includes backtest and testing scripts for analyzing strategies. 
+- **backtest.py/**: Script to run backtesting and evaluate combinations of trading strategies.
+- **test_aapl.py/**:
+- **test_btc.py/**: 
 - **utils/**: Helper functions for creating trading signals.
 - **main.py**: The main script for running the optimization and reporting the best results.
 - **README.md**: This file, describing the project and setup instructions.
