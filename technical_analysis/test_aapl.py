@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import ta
 
 # Load the dataset
-aapl_5m = pd.read_csv("data/aapl_5m_test.csv").dropna()
+aapl_5m = pd.read_csv("../data/aapl_5m_test.csv").dropna()
 
 # Optimal parameters
 best_params = {
