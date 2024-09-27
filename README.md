@@ -3,31 +3,23 @@
 ## Introduction
 
 
-Technical analysis is a key tool in trading, as it allows investors to evaluate  
-market behavior through historical price and volume data. Using this approach,  
-traders utilize indicators and charts to identify trends, support and resistance  
+Technical analysis is a key tool in trading, as it allows investors to evaluate 
+market behavior through historical price and volume data. Using this approach, 
+traders utilize indicators and charts to identify trends, support and resistance 
 levels, and recurring patterns that may signal future price movements. 
 
-In addition to facilitating decision-making regarding market entry and exit points, technical  
-analysis helps manage risk more effectively, providing a clearer view of opportunities  
+In addition to facilitating decision-making regarding market entry and exit points, technical 
+analysis helps manage risk more effectively, providing a clearer view of opportunities 
 and potential risks. It also enables traders to anticipate corrections or trend reversals, 
 helping to maximize profits and minimize losses in volatile markets.
 
 ## Objective
 
-This project focuses on applying technical analysis to two well-known assets, Apple (AAPL) 
-and Bitcoin (BTC), with the aim of enhancing trading performance. The objective is to  
-optimize and test trading strategies by utilizing various technical indicators, including 
-RSI, Bollinger Bands, MACD, ATR, and Williams %R. For each asset, buy and sell signals are  
-defined based on the indicators, and 31 possible combinations of these indicators are tested.  
-
-The project involves backtesting both long and short positions while tracking key metrics such  
-as portfolio value, Sharpe Ratio (using treasury bonds as a reference), Max Drawdown, and  
-Win-Loss Ratio. Different optimization methods like TPE, Grid Search, and Genetic Algorithms 
-are applied to fine-tune indicator parameters, stop-loss/take-profit settings, and trade  
-volumes. The optimal strategy is selected based on performance metrics and compared to a  
-passive strategy across both training and testing datasets, with results summarized in a  
-table for further analysis.
+This project optimizes trading strategies for Apple (AAPL) and Bitcoin 
+(BTC) using technical indicators. It tests 31 combinations, tracking 
+key metrics like Sharpe Ratio and Max Drawdown. Optimization methods 
+refine parameters, and the best strategy is compared to a passive one, 
+with results summarized in a table.
 
 
 ---
@@ -51,13 +43,21 @@ Each dataset contains key market data, including timestamp, price information (O
 ## Project Structure
  
 - **data/**: Contains the training and testing datasets for AAPL and Bitcoin.
+  - **aapl_5m_test.csv/**: Test data for AAPL
+  - **aapl_5m_train.csv/**: Training data for AAPL
+  - **btc_project_test.csv/**: Test data for BTC
+  - **btc_project_train.csv/**: Training data for BTC
 - **technical_analysis/**: Includes backtest and testing scripts for analyzing strategies. 
-- **backtest.py/**: Script to run backtesting and evaluate combinations of trading strategies.
-- **test_aapl.py/**: Tests the optimized trading strategy on AAPL's 5-minute dataset using predefined optimal parameters. It generates trading signals, runs backtesting, and compares the active strategy's performance with a passive one through visualizations.
-- **test_btc.py/**: Tests the optimized trading strategy on Bitcoin's dataset using predefined optimal parameters. It generates trading signals, runs backtesting, and compares the active strategy's performance with a passive one through visualizations.
+  - **backtest.py/**: Script to run backtesting and evaluate combinations of trading strategies.
+  - **test_aapl.py/**: Tests the optimized trading strategy on AAPL's 5-minute dataset using predefined optimal parameters. It generates trading signals, runs backtesting, and compares the active strategy's performance with a passive one through visualizations.
+  - **test_btc.py/**: Tests the optimized trading strategy on Bitcoin's dataset using predefined optimal parameters. It generates trading signals, runs backtesting, and compares the active strategy's performance with a passive one through visualizations.
+  - **main.py**: The main script for running the optimization and reporting the best results.
+  - **main_btc.py**: The main script for optimizing and backtesting combinations of trading strategies on Bitcoin's dataset.
 - **utils/**: Helper functions for creating trading signals.
-- **main.py**: The main script for running the optimization and reporting the best results.
-- **main_btc.py**: The main script for optimizing and backtesting combinations of trading strategies on Bitcoin's dataset. 
+  - **utils.py/**:  Contains the `create_signals` function, which generates buy/sell signals based on optimized technical 
+  indicators (RSI, Bollinger Bands, MACD, ATR, and Williams %R). It calculates these indicators and prints the number of 
+  buy and sell signals generated for the dataset provided.
+
 - **README.md**: This file, describing the project and setup instructions.
 - **requirements.txt**: Python dependencies required to run the project.
 - **report.ipynb**: Jupyter Notebook with visualizations and summary of the best strategies.
@@ -119,14 +119,26 @@ Activate the virtual environment:
 
 pip install -r requirements.txt
 
-### 5. Run the Main Script
+### 5. Run the AAPL analysis
 
-python main.py
+python technical_analysis/main.py
 
-### 6. Run the Jupyter Notebook for Visualization
+### 6. Run the BTC analysis
+
+python technical_analysis/main_btc.py
+
+### 7. Run the AAPL Test
+
+python technical_analysis/main.py
+
+### 8. Run the BTC Test
+
+python technical_analysis/main_btc.py
+
+### 9. Run the Jupyter Notebook for Visualization
 
 jupyter notebook report.ipynb
 
-### 7. Deactivate the Virtual Environment
+### 10. Deactivate the Virtual Environment
 
 deactivate
