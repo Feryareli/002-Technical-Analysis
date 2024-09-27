@@ -181,6 +181,7 @@ plt.show()
 
 # Tabla:
 
+
 # Definimos los indicadores técnicos utilizando los valores previamente calculados
 technical_data_btc_test["RSI"] = rsi
 technical_data_btc_test["BOLL"] = bollinger.bollinger_hband() - bollinger.bollinger_lband()  # Diferencia entre la banda superior e inferior de Bollinger
